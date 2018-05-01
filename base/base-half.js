@@ -34,11 +34,13 @@ var cyls = (r, h) => cyl(0, r, h);
 function main() {
     return cube({size: [width, (space + pillar) / 2, height]})
         .union(cyls(width / 2, height))
+        .subtract(cube({size: [width, space / 2 - thick, base]})
+            .translate([0, thick + pillar / 2, 0]))
         .subtract(cyls(pillar / 2, deep + screw + roof))
         .subtract(cyls(screw / 2, width).union(cyls(link / 2, width / 2))
             .rotateY(90)
             .translate([width - height, 0, width / 2 + height - screw / 2 - roof]))
         .subtract(cyls(thread / 2, pin / 2)
             .rotateX(90)
-            .translate([0, height + (space + pillar - pin) / 2, height / 2]))
+            .translate([0, height + (space + pillar - pin) / 2, (height + base) / 2]))
 }

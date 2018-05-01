@@ -1,7 +1,7 @@
 // title      : Base for child cradle
 // author     : Anatoliy Oblauhov
 // license    : MIT License
-// file       : base-full.jscad
+// file       : base.jscad
 
 // source dimensions
 var space = 360; // расстояние между ножками
@@ -34,6 +34,8 @@ var cyls = (r, h) => cyl(0, r, h).union(cyl(1, r, h))
 function main() {
     return cube({size: [width, space + pillar, height]})
         .union(cyls(width / 2, height))
+        .subtract(cube({size: [width, space - thick * 2, base]})
+            .translate([0, thick + pillar / 2, 0]))
         .subtract(cyls(pillar / 2, deep + screw + roof))
         .subtract(cyls(screw / 2, width).union(cyls(link / 2, width / 2))
             .rotateY(90)
