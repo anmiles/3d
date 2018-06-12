@@ -1,7 +1,7 @@
-// title      : Base (half) for child cradle
+// title      : Base (right) for child cradle
 // author     : Anatoliy Oblauhov
 // license    : MIT License
-// file       : base-half.jscad
+// file       : base-right.jscad
 
 // source dimensions
 var space = 360; // расстояние между ножками
@@ -37,7 +37,7 @@ function main() {
         .subtract(cube({size: [width, space / 2 - thick, base]})
             .translate([0, thick + pillar / 2, 0]))
         .subtract(cyls(pillar / 2, deep + screw + roof))
-        .subtract(cyls(screw / 2, width).union(cyls(link / 2, width / 2))
+        .subtract(cyls(screw / 2, width).union(cyls(link / 2, width / 2).translate([0, 0, -width / 2]))
             .rotateY(90)
             .translate([width - height, 0, width / 2 + height - screw / 2 - roof]))
         .subtract(cyls(thread / 2, pin / 2)
