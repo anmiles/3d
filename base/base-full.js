@@ -1,43 +1,46 @@
 // title      : Base for child cradle
 // author     : Anatoliy Oblauhov
 // license    : MIT License
-// file       : base.jscad
+// file       : base-full.jscad
 
 // source dimensions
-var space = 360; // расстояние между ножками
-var pillar = 28; // диаметр ножки
-var deep = 11; // высота распорки над базой
-var link = 13; // диаметр распорки
-var screw = 11; // диаметр винта распорки
+const space = 360; // расстояние между ножками
+const pillar = 27; // диаметр ножки
+const deep = 12; // высота распорки над базой
+const link = 14; // диаметр распорки
 
 // custom dimensions
-var base = 11; // толщина базы
-var thick = 11; // толщина стенок вокруг ножки
-var roof = 11; // толщина над отверстием для распорки
+const base = deep; // толщина базы
+const thick = deep; // толщина стенок вокруг ножки
+const roof = deep; // толщина над отверстием для распорки
+const precision = 100; //количество граней цилиндра
+
+
+
 
 
 
 // calculated dimensions
-var width = pillar + thick * 2;
-var height = base + deep + screw + roof;
+const width = pillar + thick * 2; // длина конструкции
+const height = base + deep + link + roof; // высота конструкции
 
-var cyl = (isEnd, r, h) => cylinder({
-    start: [width / 2, +isEnd * (space + pillar), height - h],
+const cyl = (diameter, length, isEnd) => cylinder({
+    start: [width / 2, +isEnd * (space + pillar), height - length],
     end: [width / 2, +isEnd * (space + pillar), height],
-    fn: 100,
-    r1: r,
-    r2: r,
+    fn: precision,
+    r1: diameter / 2,
+    r2: diameter / 2,
 });
 
-var cyls = (r, h) => cyl(0, r, h).union(cyl(1, r, h))
+const cyls = (diameter, length) => cyl(diameter, length, false).union(cyl(diameter, length, true))
 
 function main() {
     return cube({size: [width, space + pillar, height]})
-        .union(cyls(width / 2, height))
+        .union(cyls(width, height))
         .subtract(cube({size: [width, space - thick * 2, base]})
             .translate([0, thick + pillar / 2, 0]))
-        .subtract(cyls(pillar / 2, deep + screw + roof))
-        .subtract(cyls(screw / 2, width).union(cyls(link / 2, width / 2))
+        .subtract(cyls(pillar, deep + link + roof))
+        .subtract(cyls(link, width)
             .rotateY(90)
-            .translate([width - height, 0, width / 2 + height - screw / 2 - roof]))
+            .translate([width - height, 0, width / 2 + height - link / 2 - roof]));
 }
