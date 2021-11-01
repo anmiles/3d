@@ -1,5 +1,5 @@
 // title      : Base for child cradle
-// author     : Anatoliy Oblauhov
+// author     : Anatoliy Oblaukhov
 // license    : MIT License
 // file       : base-full.jscad
 
